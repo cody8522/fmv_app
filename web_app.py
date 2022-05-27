@@ -24,12 +24,9 @@ def csv_load():
 	event = pd.read_csv('Old Shows - Old Shows (1).csv')
 	df = df.merge(pd.read_csv('Venue Information.csv').rename(columns={'Venue':'Name'})[['Name','Adjusted Capacity']],on='Name').drop('Unnamed: 0',axis=1)
 	df = df.merge(event[['Stubhub ID','Month']],on='Stubhub ID',how='left')
-	print(len(df))
 	mydf = df.groupby(['Stubhub ID','Section']).agg({'DayOfWeek':'count','Get-In':'median'}).sort_values(by='DayOfWeek',ascending=False).reset_index()
 	idlist = list(set(list(mydf[mydf['DayOfWeek']<365]['Stubhub ID'])))
 	df = df[df['Stubhub ID'].isin(idlist)]
-	print(len(df))
-
 	df['Artist Name'] = list(map(lambda x: x.strip().title(), df['Artist Name']))
 	chart = pd.read_csv('chartmetric - chartmetric.csv')
 	chart['name'] = list(map(lambda x: x.strip().title(), chart['name']))
