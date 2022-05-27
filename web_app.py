@@ -20,7 +20,8 @@ chartcols = ['sp_followers',
 
 @st.experimental_memo(suppress_st_warning = True)
 def csv_load():
-	df = pd.read_csv('BIG-SHOWS-RAW.csv')
+	zf = zipfile.ZipFile('BIG-SHOWS-RAW.zip')
+	df = pd.read_csv(zf.open('BIG-SHOWS-RAW.csv'))
 	event = pd.read_csv('Old Shows - Old Shows (1).csv')
 	df = df.merge(pd.read_csv('Venue Information.csv').rename(columns={'Venue':'Name'})[['Name','Adjusted Capacity']],on='Name').drop('Unnamed: 0',axis=1)
 	df = df.merge(event[['Stubhub ID','Month']],on='Stubhub ID',how='left')
