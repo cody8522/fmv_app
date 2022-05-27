@@ -22,7 +22,7 @@ chartcols = ['sp_followers',
 def csv_load():
 	df = pd.read_csv('BIG-SHOWS-RAW.csv')
 	event = pd.read_csv('Old Shows - Old Shows (1).csv')
-	df = df.merge(pd.read_csv('Venue Information.csv').rename(columns={'Venue':'Name'})[['Name','Adjusted Capacity']],on='Name').drop('Unnamed: 0',axis=1)
+	df = df.merge(pd.read_csv('Venue Information.csv').rename(columns={'Venue':'Name'}, inplace = True)[['Name','Adjusted Capacity']],on='Name').drop('Unnamed: 0',axis=1)
 	df = df.merge(event[['Stubhub ID','Month']],on='Stubhub ID',how='left')
 	print(len(df))
 	mydf = df.groupby(['Stubhub ID','Section']).agg({'DayOfWeek':'count','Get-In':'median'}).sort_values(by='DayOfWeek',ascending=False).reset_index()
