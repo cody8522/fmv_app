@@ -21,6 +21,7 @@ chartcols = ['sp_followers',
 @st.experimental_memo(suppress_st_warning = True)
 def csv_load():
 	df = pd.read_csv('BIG-SHOWS-RAW.csv')
+	st.write(df.head())
 	event = pd.read_csv('Old Shows - Old Shows (1).csv')
 	venue_info = pd.read_csv('Venue Information.csv')
 	df = df.merge(venue_info[['Name','Adjusted Capacity']], on='Name').drop('Unnamed: 0',axis=1)
